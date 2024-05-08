@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Rotorzer Order Flow Suite" verbose="3"
+	thread-count="1" parallel="tests">
+
+<listeners>
+	
+		<listener
+			class-name="agi.qa.rotorazer.listeners.ExtentReportListener" />
+
+	</listeners>
+
+	
+	<test name="Product Dispaly Page chrome">
+		<parameter name="browser" value="firefox" />
+
+		<classes>
+			<class name="agi.qa.rotorazer.tests.ProductDispalyPageTest" />
+		</classes>
+	</test>
+
+
+</suite>

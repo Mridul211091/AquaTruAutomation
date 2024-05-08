@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="AquaTru Order Flow Tests" verbose="3"
+	thread-count="1" parallel="tests">
+
+<listeners>
+	
+		<listener
+			class-name="agi.qa.aquatru.listeners.ExtentReportListener" />
+
+<listener
+			class-name="agi.qa.aquatru.listeners.TestAllureListener" />
+			
+	</listeners>
+
+	
+	<test name="Place Test Orders">
+		<parameter name="browser" value="chrome" />
+
+		<classes>
+			<class name="agi.qa.aquatru.tests.AquaTruOrderFlowTest" />
+		</classes>
+	</test>
+
+
+</suite>
