@@ -1,6 +1,8 @@
 package agi.qa.aquatru.pages;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +33,7 @@ public class AquaTruOrderFlowPage {
 	// private By shopNow =By.xpath("//span[normalize-space()='SHOP NOW']");
 
 	private By shopNow = By.xpath(
-			"//a[@href='https://aquatruwstg.wpenginepowered.com/product-category/water-purifiers/']//span[contains(text(),'Shop Now')]");
+			"//a[@href='https://aquatrustaging.wpengine.com/product-category/water-purifiers/']//span[contains(text(),'Shop Now')]");
 	private By bannerText = By.xpath("//strong[contains(text(),'NEW! AirDoctor 2500 Wall-Mounted Purifier Sale-on-')]");
 	// private By bannerText =By.xpath("//ul[contains(@class,'nav header-bottom-nav
 	// nav-center mobile-nav')]/li/p");
@@ -191,6 +193,30 @@ public class AquaTruOrderFlowPage {
 		System.out.println("Model Text is : " + title);
 		return title;
 	}
+	
+	public void getThankYoPageURL() throws URISyntaxException {
+		String originalUrl = driver.getCurrentUrl();
+        String username = "aquatrustaging";
+        String password = "aquatru2024";
+
+        try {
+            URI uri = new URI(originalUrl);
+            String newUrl = uri.getScheme() + "://" + username + ":" + password + "@" + uri.getHost();
+            if (uri.getPort() != -1) {
+                newUrl += ":" + uri.getPort();
+            }
+            newUrl += uri.getPath();
+            if (uri.getQuery() != null) {
+                newUrl += "?" + uri.getQuery();
+            }
+            System.out.println("New URL: " + newUrl);
+            driver.get(newUrl);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        
+		//return url;
+	}
 
 	public Map<String, String> getorderdetails() throws InvalidFormatException, IOException {
 		productMap.put("subtotal", eleUtil.getElement(subtotalvalue).getText());
@@ -248,8 +274,8 @@ public class AquaTruOrderFlowPage {
 		Thread.sleep(3000);
 		eleUtil.doActionsSendKeys(cardnumberfield, AppConstants.CARD_NUMBER);
 		eleUtil.doActionsSendKeys(cardexpiryfield, AppConstants.CARD_EXPIRY);
-		JsUtil.scrollIntoView(eleUtil.getElement(placeorderbtn));
-		Thread.sleep(5000);
+		//JsUtil.scrollIntoView(eleUtil.getElement(placeorderbtn));
+		Thread.sleep(3000);
 		eleUtil.doActionsSendKeys(cardseccodefield, AppConstants.SECURITY_CODE);
 		// JsUtil.scrollIntoView(eleUtil.getElement(placeorderbtn));
 		Thread.sleep(2000);
@@ -1397,9 +1423,8 @@ public class AquaTruOrderFlowPage {
 	public LoginPage logoutfromthankyoupage() throws InterruptedException {
 		eleUtil.clickWhenReady(backtohomepage, TimeUtil.DEFAULT_MEDIUM_TIME);
 		eleUtil.clickWhenReady(loginIcon, TimeUtil.DEFAULT_MEDIUM_TIME);
-		JsUtil.scrollIntoView(eleUtil.getElement(logouttab));
+		//JsUtil.scrollIntoView(eleUtil.getElement(logouttab));
 		eleUtil.clickWhenReady(logout, TimeUtil.DEFAULT_MEDIUM_TIME);
-		eleUtil.clickWhenReady(backtohomepage, TimeUtil.DEFAULT_MEDIUM_TIME);
 		return new LoginPage(driver);
 	}
 
