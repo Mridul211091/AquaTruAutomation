@@ -12,6 +12,7 @@ import org.testng.asserts.SoftAssert;
 
 import agi.qa.aquatru.constants.AppConstants;
 import agi.qa.aquatru.factory.DriverFactory;
+import agi.qa.aquatru.pages.AquaTruAffiliatePage;
 import agi.qa.aquatru.pages.AquaTruOrderFlowPage;
 import agi.qa.aquatru.pages.LoginPage;
 import agi.qa.aquatru.pages.ProductDisplayPage;
@@ -29,6 +30,7 @@ public class BaseTest {
 	protected LoginPage loginPage;
 	protected ProductDisplayPage pdpPage;
 	protected AquaTruOrderFlowPage aquatruPage;
+	protected AquaTruAffiliatePage affiliatePage;
 	protected SoftAssert softAssert;
 	
 	//@Parameters({"browser"})
@@ -49,9 +51,10 @@ public class BaseTest {
 		df = new DriverFactory();
 		prop = df.initProp();
 		driver = df.initDriver(prop);
-		loginPage = new LoginPage(driver);
-		//affiliatePage = new Ad2500AffiliatePage(driver);
-		//softAssert = new SoftAssert();
+		//loginPage = new LoginPage(driver);
+		//aquatruPage = new AquaTruOrderFlowPage(driver);
+		affiliatePage = new AquaTruAffiliatePage(driver);
+		softAssert = new SoftAssert();
 	}
 	
 	

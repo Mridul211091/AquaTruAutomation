@@ -26,6 +26,23 @@ public class AquaTruOrderFlowPage {
 	private ElementUtil eleUtil;
 	private JavaScriptUtil JsUtil;
 	private Map<String, String> productMap = new HashMap<String, String>();
+	
+	
+	
+	//Affiliate Page Test
+	private By carafeName = By.xpath("//*[@id=\"blueheading\"]");
+	private By caraferadiobtn = By.xpath("//*[@id=\"classic_carafe_purifier\"]");
+	private By alkalinecaraferadiobtn = By.xpath("//*[@id=\"alkaline_carafe_purifier\"]");
+	private By regularPrice = By.xpath("//*[@id=\"variation_custom_price\"]/div/text[contains (text(),'Regular Price: ')]/del");
+	private By emailOnlyPrice = By.xpath("//*[@id=\"variation_custom_price\"]/div/text[@class='email-only-price']");
+	private By addToCart = By.xpath("//button[normalize-space()='Add to cart']");
+	private By increaseQuantity = By.xpath("//input[@value='+']");
+	private By shadowroot = By.xpath("//aside[@class='dg-consent-banner theme-neutral position-bottom visible']");
+	private By cookiebannerbtn = By.cssSelector("div > div > div.dg-main-actions > button.dg-button.accept_all");
+	private By loginIcon = By.xpath("//a[@class='nav-top-link'][normalize-space()='Login']");
+	private By usernameField = By.id("username");
+	private By passwordField = By.id("password");
+	private By loginButton = By.name("login");
 
 	// 1. Private By Locators
 
@@ -33,8 +50,8 @@ public class AquaTruOrderFlowPage {
 	// private By shopNow =By.xpath("//span[normalize-space()='SHOP NOW']");
 
 	private By shopNow = By.xpath(
-			"//a[@href='https://aquatrustaging.wpengine.com/product-category/water-purifiers/']//span[contains(text(),'Shop Now')]");
-	private By bannerText = By.xpath("//strong[contains(text(),'NEW! AirDoctor 2500 Wall-Mounted Purifier Sale-on-')]");
+			"//a[@href='https://aquatrustaging.wpengine.com/product-category/water-purifiers/'][contains(text(),'Shop Now')]");
+	private By bannerText = By.xpath("//*[@id=\"wrapper\"]/div/div/div[1]/div/p/strong");
 	// private By bannerText =By.xpath("//ul[contains(@class,'nav header-bottom-nav
 	// nav-center mobile-nav')]/li/p");
 	// private By Model2500Text =By.xpath("//h5[normalize-space()='\"WALL-MOUNTED OR
@@ -123,7 +140,7 @@ public class AquaTruOrderFlowPage {
 	private By backtohomepage = By.xpath("//*[@id='logo']/a");
 	private By logout = By.xpath("//*[@id='main']/div[2]/div/div/div[2]/div/div/p[1]/a");
 	// *[@id="main"]/div[2]/div/div/div[2]/div/div/p[1]/a
-	private By loginIcon = By.xpath("//a[@class='nav-top-link'][normalize-space()='Login']");
+	
 	private By usenewcard = By.id("wc-cybersource-credit-card-use-new-payment-method");
 	private By paymentmethodtab = By.xpath("//*[@id=\"my-account-nav\"]/li[5]/a");
 	private By logouttab = By.xpath("//*[@id='my-account-nav']/li[8]/a");
@@ -183,16 +200,66 @@ public class AquaTruOrderFlowPage {
 		return title;
 	}
 
-	public void clickShopNow() {
+	public void clickShopNow() throws Exception {
+		//
+		try {
 		eleUtil.waitForElementPresence(shopNow, TimeUtil.DEFAULT_LONG_TIME);
-		eleUtil.doActionsClick(shopNow);
+		Thread.sleep(5000);
+       eleUtil.doActionsClick(shopNow);
+	//eleUtil.doClick(shopNow);
+		}
+		catch (Exception ex) {
+			System.out.println("Check Model Name");
+			throw ex;
+			}
+		//eleUtil.clickWhenReady(shopNow, TimeUtil.DEFAULT_LONG_TIME);
 	}
 
 	public String getModelText() {
-		String title = eleUtil.doGetElementText(Model2500Text);
+		String title = eleUtil.doGetElementText(carafeName);
 		System.out.println("Model Text is : " + title);
 		return title;
 	}
+	
+	public String getRegularPrice() {
+		String title = eleUtil.doGetElementText(regularPrice);
+		System.out.println("Regular Price is : " + title);
+		return title;
+	}
+	
+	public String getEmailOnlyPrice() {
+		String title = eleUtil.doGetElementText(emailOnlyPrice);
+		System.out.println("E-mail Only Price is : " + title);
+		return title;
+	}
+	
+	public void accepCookies() throws InterruptedException{
+		Thread.sleep(5000);
+		driver.findElement(shadowroot).getShadowRoot().findElement(cookiebannerbtn).click();
+		Thread.sleep(2000);
+	}
+	
+	public void doLogin(String username, String pwd) throws InterruptedException {
+		Thread.sleep(2000);
+		driver.findElement(shadowroot).getShadowRoot().findElement(cookiebannerbtn).click();
+		Thread.sleep(2000);
+		eleUtil.clickWhenReady(loginIcon, TimeUtil.DEFAULT_LONG_TIME);
+		Thread.sleep(5000);
+		eleUtil.waitForElementVisible(usernameField, TimeUtil.DEFAULT_LONG_TIME);
+		eleUtil.doSendKeys(usernameField, username);
+		eleUtil.doSendKeys(passwordField, pwd);
+		eleUtil.doClick(loginButton);
+		eleUtil.doClick(backtohomepage);
+		Thread.sleep(3000);
+	}
+	
+	
+	public void clickAlkalineRadiobtn(){
+		
+		eleUtil.waitForElementPresence(alkalinecaraferadiobtn, TimeUtil.DEFAULT_LONG_TIME); 
+        eleUtil.doActionsClick(alkalinecaraferadiobtn);
+	}
+	
 	
 	public void getThankYoPageURL() throws URISyntaxException {
 		String originalUrl = driver.getCurrentUrl();
